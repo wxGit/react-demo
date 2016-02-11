@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>React Getting Start</title>
+<link rel="stylesheet" href="app.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+<script type="text/jsx;harmony=true">
+class Comment extends React.Component{
+	render(){
+	   return(
+          <div className="comment-main">
+             <div className="comment-body">
+                {this.props.children}
+             </div>
+             <div className="comment-author">
+                -- {this.props.author}
+             </div>
+          </div>
+	   );
+	}
+}
+
+class CommentForm extends React.Component{
+    render(){
+       return(
+          <div className="comment-form">
+            CommentForm
+          </div> 
+       );
+    }
+}
+
+class CommentList extends React.Component{
+    render(){
+       //console.log(this.props.comments);
+       var commentsNode = this.props.comments.map(function(comment,index){
+          return <Comment author={comment.author} key={'comment-'+index}>{comment.body}</Comment>
+       });
+       return(
+          <div className="comment-list">
+            {commentsNode}
+          </div>
+       );
+    }
+}
+
+var comments = [
+   {author:"Leon Li",body:"this is my comment"}
+];
+
+var other = [
+   {author:"Leon Li",body:"this is my comment"},
+   {author:"Anothor Li",body:"edw is my reger"}
+];
+
+class CommentBox extends React.Component{
+	constructor(props){
+		super();
+		this.state = {
+           comments:props.comments
+		};
+	}
+
+	render() {
+	   return (
+	     <div className="comment-box">
+           <h1>Coments</h1>
+           <CommentList comments={this.state.comments}/>
+           <CommentForm/>
+	     </div>   
+	   );
+	}
+}
+
+box = React.render(
+   <CommentBox comments = {comments}/>,
+   document.getElementById('content')
+);
+</script>
+</head>
+<body>
+<div id="content"></div>
+</body>
+</html>

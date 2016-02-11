@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>React Getting Start</title>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+<script type="text/jsx;harmony=true">
+var TodoList = React.createClass({
+  delLi:function(e,t){
+     alert(t);
+  },
+  render:function(){
+  	var This = this;
+  	var btnStyle = {
+	  color: '#f00',
+	  cursor:'pointer',
+	  marginLeft:'20px'
+	};
+	var createItem = function(itemText,index){
+       return (
+       	  <li key={'item-'+index}>{itemText}<button style={btnStyle} onClick={This.delLi.bind(this)}>{'delete'}</button></li>
+       )
+	};
+	return (
+       <ul>{this.props.items.map(createItem)}</ul>
+	)
+  }
+});
+
+var TodoApp = React.createClass({
+	getInitialState:function(){
+       return {items:[],text:''};
+	},
+	onChange:function(e){
+       this.setState({text:e.target.value});
+	},
+	handleSubmit:function(e){
+       e.preventDefault();
+       var nextItems = this.state.items.concat([this.state.text]);
+       var nextText = '';
+       this.setState({items:nextItems,text:nextText});
+       //console.log(this.state.items,this.state.text);
+	},
+	render:function(){
+		return (
+           <div>
+              <h3>TODO</h3>
+              <TodoList items = {this.state.items}/>
+              <form onSubmit = {this.handleSubmit}>
+                <input value={this.state.text} onChange = {this.onChange}/>
+                <br/>
+                <button>{'Add #' + (this.state.items.length + 1)}</button>
+              </form>
+           </div>
+		)
+	}
+});
+React.render(
+   <TodoApp/>,
+   document.getElementById('content')
+);
+</script>
+</head>
+<body>
+<div id="content"></div>
+</body>
+</html>
